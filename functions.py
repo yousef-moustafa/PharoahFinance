@@ -1,3 +1,10 @@
 
+class user:
+    def __init__(self, u, p):
+        self.username = u
+        self.password = p
 
-print("Hello World")
+
+
+
+user1 = user("yousef_moustafa", "yousef123")
