@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Add Expense</title>
+  </head>
+  <body>
+    <h1>Add Expense</h1>
+    <form method="POST" action="/add_expense">
+      <label for="name">Expense Name:</label><br>
+      <input type="text" id="name" name="name"><br><br>
+      <label for="category">Expense Category:</label><br>
+      <select id="category" name="category">
+        <option value="food">Food</option>
+        <option value="housing">Housing</option>
+        <option value="transportation">Transportation</option>
+        <option value="entertainment">Entertainment</option>
+        <option value="other">Other</option>
+      </select><br><br>
+      <label for="amount">Expense Amount:</label><br>
+      <input type="number" id="amount" name="amount"><br><br>
+      <input type="submit" value="Submit">
+    </form>
+  </body>
+</html>

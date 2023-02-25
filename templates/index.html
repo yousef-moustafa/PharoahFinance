@@ -5,10 +5,21 @@
 </head>
 <body>
     <h1>Expenses</h1>
-    <ul>
-    {% for expense in expenses %}
-        <li>{{ expense.title }} - {{ expense.amount }}</li>
-    {% endfor %}
-    </ul>
+    <p>Total spent: ${{ total_spent }}</p>
+    <form action="{{ url_for('expenses.add_expense') }}" method="GET">
+        <button type="submit">Add Expense</button>
+    </form>
+    <h2>Budget:</h2>
+    <form action="{{ url_for('expenses.index') }}" method="POST">
+        <label for="budget">Enter your budget:</label>
+        <input type="number" id="budget" name="budget" step="0.01">
+        <button type="submit">Submit</button>
+    </form>
+    {% if budget > 0 %}
+        <p>Budget set to ${{ budget }}</p>
+        <p>Daily spending limit: ${{ budget/30 }}</p>
+    {% else %}
+        <p>No budget set</p>
+    {% endif %}
 </body>
 </html>
