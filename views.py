@@ -22,8 +22,11 @@ budget = 0
 expenses_month = []
 today = datetime.now().date()
 
-@expenses.route('/')
+@expenses.route('/', methods=['GET', 'POST'])
 def index():
+    global budget
+    if request.method == 'POST':
+        budget = float(request.form['budget'])
     def total_spent():
         conn = sqlite3.connect('expenses.db')
         c = conn.cursor()
@@ -35,6 +38,7 @@ def index():
 
         return round(total, 2)
     return render_template('index.html', expenses=expenses_list, total_spent=total_spent(), budget=budget, daily_spending=calculate_daily_spending())
+
 
 @expenses.route('/add_expense', methods=['GET', 'POST'])
 def add_expense():

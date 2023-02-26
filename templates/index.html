@@ -17,9 +17,11 @@
     </form>
     {% if budget > 0 %}
         <p>Budget set to ${{ budget }}</p>
-        <p>Daily spending limit: ${{ budget/30 }}</p>
+        <p>Daily spending limit: ${{ daily_spending }}</p>
     {% else %}
         <p>No budget set</p>
     {% endif %}
+
+
 </body>
 </html>
