@@ -1,14 +1,22 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from models import Expense
+from models import ExpenseDB
 from datetime import datetime, timedelta
+import sqlite3
 
 expenses = Blueprint('expenses', __name__)
 
-expenses_list = [
-    Expense('Expense 1', 'This is expense 1', 10.99),
-    Expense('Expense 2', 'This is expense 2', 19.99),
-    Expense('Expense 3', 'This is expense 3', 5.99)
-]
+def get_expenses_from_db():
+    conn = sqlite3.connect('expenses.db')
+    c = conn.cursor()
+
+    expenses = []
+    for row in c.execute('SELECT * FROM expenses'):
+        expenses.append(ExpenseDB(row[0], row[1], row[2], row[3]))
+
+    conn.close()
+    return expenses
+
+expenses_list = get_expenses_from_db()
 
 budget = 0
 expenses_month = []
@@ -16,6 +24,16 @@ today = datetime.now().date()
 
 @expenses.route('/')
 def index():
+    def total_spent():
+        conn = sqlite3.connect('expenses.db')
+        c = conn.cursor()
+
+        c.execute("SELECT SUM(amount) FROM expenses")
+        total = c.fetchone()[0] or 0
+
+        conn.close()
+
+        return round(total, 2)
     return render_template('index.html', expenses=expenses_list, total_spent=total_spent(), budget=budget, daily_spending=calculate_daily_spending())
 
 @expenses.route('/add_expense', methods=['GET', 'POST'])
@@ -24,10 +42,14 @@ def add_expense():
         title = request.form['title']
         description = request.form['description']
         amount = float(request.form['amount'])
-        expense = Expense(title, description, amount)
-        expenses_list.append(expense)
+        conn = sqlite3.connect('expenses.db')
+        c = conn.cursor()
+        c.execute("INSERT INTO expenses (title, description, amount) VALUES (?, ?, ?)", (title, description, amount))
+        conn.commit()
+        conn.close()
         return redirect(url_for('expenses.index'))
     return render_template('add_expense.html')
+
 
 def total_spent():
     total = sum(expense.amount for expense in expenses_list)
