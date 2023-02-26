@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Expenses</h1>
-    <p>Total spent: ${{ total_spent }}</p>
+    <p>Total spent: {{ total_spent }} egp </p>
     <form action="{{ url_for('expenses.add_expense') }}" method="GET">
         <button type="submit">Add Expense</button>
     </form>
@@ -16,8 +16,8 @@
         <button type="submit">Submit</button>
     </form>
     {% if budget > 0 %}
-        <p>Budget set to ${{ budget }}</p>
-        <p>Daily spending limit: ${{ daily_spending }}</p>
+        <p>Budget set to {{ budget }} egp </p>
+        <p>Daily spending limit: {{ daily_spending }} egp </p>
     {% else %}
         <p>No budget set</p>
     {% endif %}
