@@ -64,10 +64,9 @@ def get_budget(amount):
     budget = float(amount)
 
 def calculate_daily_spending():
-    days_remaining = (today.replace(day=1) + timedelta(days=32)).replace(day=1) - today
-    days_remaining = days_remaining.days
-    if days_remaining == 0:
+    days_in_a_month = 30.4166667
+    if budget == 0:
         daily_spending = 0
     else:
-        daily_spending = round((budget - total_spent()) / days_remaining, 2)
+        daily_spending = round(budget / days_in_a_month)
     return daily_spending
