@@ -1,0 +1,27 @@
+//Custom function to calculate 10% of the user's income and allocate it for savings/investing
+import 'dart:convert';
+import 'dart:math' as math;
+
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
+import 'package:timeago/timeago.dart' as timeago;
+import '../../flutter_flow/lat_lng.dart';
+import '../../flutter_flow/place.dart';
+import '../../flutter_flow/custom_functions.dart';
+import '../../backend/backend.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../../auth/auth_util.dart';
+
+int? incomeSavings(int? userIncome) {
+  /// MODIFY CODE ONLY BELOW THIS LINE
+
+  if (userIncome == null) {
+    return null;
+  }
+  double tenPercent = userIncome * 0.1;
+  int savings = tenPercent.round();
+  return savings;
+
+  /// MODIFY CODE ONLY ABOVE THIS LINE
+}
