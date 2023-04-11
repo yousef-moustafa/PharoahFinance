@@ -8,3 +8,5 @@ app.register_blueprint(expenses)
 
 if __name__ == '__main__':
     app.run()
+
+

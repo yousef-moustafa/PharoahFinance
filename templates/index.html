@@ -2,26 +2,87 @@
 <html>
 <head>
     <title>Expenses</title>
+     <style>
+        body {
+            font-family: serif;
+            font-size: 32px;
+            color: #FFFFFF;
+            background-color: #1A1F24;
+            margin: 0;
+            padding: 0;
+            background-image: linear-gradient(to bottom right, #111417, #1A1F24);
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 70px;
+            text-align: center;
+        }
+
+        img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100px; /* Adjust height as needed */
+            object-fit: cover;
+        }
+        .content {
+            margin-top: 200px; /* Adjust margin-top to leave space for the image */
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Add custom style for buttons */
+        form button[type="submit"] {
+            background-color: #111417;
+            color: #AD974F;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        /* Optional: Add hover effect for buttons */
+        form button[type="submit"]:hover {
+            opacity: 0.8;
+        }
+
+        /* Modify color of text, except for title */
+        .container h1, .container h2 {
+            color: #FFFFFF;
+        }
+        .container p, .container label, .container input, .container button {
+            color: #AD974F;
+        }
+    </style>
 </head>
 <body>
-    <h1>Expenses</h1>
-    <p>Total spent: {{ total_spent }} egp </p>
-    <form action="{{ url_for('expenses.add_expense') }}" method="GET">
-        <button type="submit">Add Expense</button>
-    </form>
-    <h2>Budget:</h2>
-    <form action="{{ url_for('expenses.index') }}" method="POST">
-        <label for="budget">Enter your budget:</label>
-        <input type="number" id="budget" name="budget" step="0.01">
-        <button type="submit">Submit</button>
-    </form>
-    {% if budget > 0 %}
-        <p>Budget set to {{ budget }} egp </p>
-        <p>Daily spending limit: {{ daily_spending }} egp </p>
-    {% else %}
-        <p>No budget set</p>
-    {% endif %}
-
-
+    <div class="container">
+        <h1>Expenses</h1>
+        <p>Total spent: {{ total_spent }} egp </p>
+        <form action="{{ url_for('expenses.add_expense') }}" method="GET">
+            <button type="submit">Add Expense</button>
+        </form>
+        <h2>Income:</h2>
+        <form action="{{ url_for('expenses.index') }}" method="POST">
+            <label for="income">Enter your income:</label>
+            <br>
+            <input type="number" id="income" name="income" step="0.01">
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+        {% if income > 0 %}
+            <p>Income set to {{ income }} egp </p>
+            <p>Daily spending limit: {{ daily_spending }} egp </p>
+        {% else %}
+            <p>No income set</p>
+        {% endif %}
+        <form action="{{ url_for('expenses.create_budget') }}" method="POST">
+            <button type="submit">Create Budget</button>
+        </form>
+    </div>
+    <img src="https://cdn.discordapp.com/attachments/1031582385071984723/1086949138488369202/Untitled_1.jpeg" alt="Gold Bar Image">
 </body>
 </html>

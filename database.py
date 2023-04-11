@@ -8,7 +8,8 @@ def connect():
 def create_table():
     conn = connect()
     c = conn.cursor()
-    c.execute('''CREATE TABLE IF NOT EXISTS expenses
+    c.execute('''DROP TABLE IF EXISTS expenses''')
+    c.execute('''CREATE TABLE expenses
              (id INTEGER PRIMARY KEY AUTOINCREMENT,
              title TEXT,
              description TEXT,

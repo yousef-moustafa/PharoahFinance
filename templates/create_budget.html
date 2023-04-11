@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Add Expense</title>
+    <title>Create Budget</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
     <style>
         body {
@@ -11,6 +11,7 @@
             background-color: #1A1F24;
             margin: 0;
             padding: 0;
+            background-image: linear-gradient(to bottom right, #111417, #1A1F24);
         }
 
         .container {
@@ -65,26 +66,19 @@
         .back-button:hover {
             text-decoration: underline;
         }
-        /* Modify color of text, except for title */
-        .container h1, .container h2 {
-            color: #FFFFFF;
-        }
-        .container p, .container label, .container input, .container button {
-            color: #AD974F;
-        }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>Add Expense</h1>
+    <h1>Create Budget</h1>
     <img src="https://cdn.discordapp.com/attachments/1031582385071984723/1086949138488369202/Untitled_1.jpeg" alt="Gold Bar Image">
     <div class="content">
-        <form method="POST" action="{{ url_for('expenses.add_expense') }}">
-            <label for="title">Expense Name:</label>
-            <input type="text" id="title" name="title">
-            <label for="description">Expense Description:</label>
-            <input type="text" id="description" name="description">
-            <label for="amount">Expense Amount:</label>
+        <form method="POST" action="{{ url_for('budgets.create_budget') }}">
+            <label for="budget-name">Budget Name:</label>
+            <input type="text" id="budget-name" name="budget-name">
+            <label for="category">Category:</label>
+            <input type="text" id="category" name="category">
+            <label for="amount">Amount:</label>
             <input type="number" id="amount" name="amount">
             <input type="submit" value="Submit">
         </form>
