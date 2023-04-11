@@ -44,7 +44,7 @@
         /* General Styles */
         body {
           font-family: Garamond, serif;
-          font-size: 25px;
+          font-size: 27px;
           color: #FFFFFF;
           background-color: #1A1F24;
           margin: 0;
@@ -89,12 +89,15 @@
         }
 
         /* Modify color of text, except for title */
-        .container h1, .container h2 {
+        .container h1{
           color: #FFFFFF;
         }
-        .container p, .container label, .container input, .container button {
+        .container p, .container label, .container input, .container button{
           color: #AD974F;
         }
+        .container h3{
+          color:  #F8F0E3;
+         }
     </style>
 
 </head>
@@ -105,12 +108,8 @@
   <!-- Sidebar Right -->
   <div class="sidebar-right"></div>
     <div class="container">
-        <h1>Expenses</h1>
-        <p>Total spent: {{ total_spent }} egp </p>
-        <form action="{{ url_for('expenses.add_expense') }}" method="GET">
-            <button type="submit">Add Expense</button>
-        </form>
-        <h2>Income:</h2>
+        <h1>Pharaoh Finance</h1>
+        <h3>Income:</h3>
         <form action="{{ url_for('expenses.index') }}" method="POST">
             <label for="income">Enter your income:</label>
             <br>
@@ -124,6 +123,10 @@
         {% else %}
             <p>No income set</p>
         {% endif %}
+        <h3>Total spent: {{ total_spent }} egp </h3>
+        <form action="{{ url_for('expenses.add_expense') }}" method="GET">
+            <button type="submit">Add Expense</button>
+        </form>
         <form action="{{ url_for('expenses.create_budget') }}" method="GET">
         <button type="submit">Create Budget</button>
         </form>
