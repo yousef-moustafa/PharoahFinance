@@ -47,8 +47,18 @@
             width: 300px;
         }
 
+         /* Example style for changing submit button color */
         input[type="submit"] {
-            margin-top: 20px;
+            background-color: #111417; /* Change to the desired background color */
+            color: #AD974F; /* Change to the desired text color */
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        /* Example style for changing submit button color on hover */
+        input[type="submit"]:hover {
+            background-color: #D4AF37; /* Change to the desired hover background color */
         }
 
         .back-button {
@@ -88,7 +98,7 @@
             <input type="number" id="amount" name="amount">
             <input type="submit" value="Submit">
         </form>
-        <a class="back-button" href="http://127.0.0.1:5000/">&lt;</a>
+        <a class="back-button" href="{{ url_for('expenses.index') }}">&lt;</a>
     </div>
 </div>
 </body>

@@ -48,9 +48,19 @@
             width: 300px;
         }
 
-        input[type="submit"] {
-            margin-top: 20px;
-        }
+        /* Example style for changing submit button color */
+    input[type="submit"] {
+        background-color: #111417; /* Change to the desired background color */
+        color: #AD974F; /* Change to the desired text color */
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+    }
+
+    /* Example style for changing submit button color on hover */
+    input[type="submit"]:hover {
+        background-color: #D4AF37; /* Change to the desired hover background color */
+    }
 
         .back-button {
             display: block;
@@ -66,6 +76,14 @@
         .back-button:hover {
             text-decoration: underline;
         }
+
+        /* Modify color of text, except for title */
+        .container h1, .container h2 {
+            color: #FFFFFF;
+        }
+        .container p, .container label, .container input, .container button {
+            color: #AD974F;
+        }
     </style>
 </head>
 <body>
@@ -73,7 +91,7 @@
     <h1>Create Budget</h1>
     <img src="https://cdn.discordapp.com/attachments/1031582385071984723/1086949138488369202/Untitled_1.jpeg" alt="Gold Bar Image">
     <div class="content">
-        <form method="POST" action="{{ url_for('budgets.create_budget') }}">
+        <form method="POST" action="{{ url_for('expenses.create_budget') }}">
             <label for="budget-name">Budget Name:</label>
             <input type="text" id="budget-name" name="budget-name">
             <label for="category">Category:</label>
@@ -82,7 +100,7 @@
             <input type="number" id="amount" name="amount">
             <input type="submit" value="Submit">
         </form>
-        <a class="back-button" href="http://127.0.0.1:5000/">&lt;</a>
+        <a class="back-button" href="{{ url_for('expenses.index') }}">&lt;</a>
     </div>
 </div>
 </body>

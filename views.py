@@ -75,15 +75,6 @@ def calculate_daily_spending():
 @expenses.route('/create_budget', methods=['GET', 'POST'])
 def create_budget():
     if request.method == 'POST':
-        # Get the data from the request form
-        budget_name = request.form['budget-name']
-        category = request.form['category']
-        amount = request.form['amount']
-
-        # Code for handling the create budget request
-        # ... (process the data and save it to the database, etc.)
-
-        # Redirect to the same create_budget route
         return redirect(url_for('expenses.create_budget'))
 
     # Render the create_budget.html template for GET requests
