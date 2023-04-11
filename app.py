@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from views import *
 
 app = Flask(__name__)
@@ -7,6 +7,6 @@ app = Flask(__name__)
 app.register_blueprint(expenses)
 
 if __name__ == '__main__':
+    create_table_database()
     app.run()
-
 

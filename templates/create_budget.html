@@ -4,6 +4,25 @@
     <title>Create Budget</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
     <style>
+        /* Sidebar Styles */
+            .sidebar-left,
+            .sidebar-right {
+              background-image: url('https://cdn.discordapp.com/attachments/1031582385071984723/1086949138488369202/Untitled_1.jpeg');
+              background-size: cover;
+              position: fixed;
+              top: 0;
+              bottom: 0;
+              width: 100px;
+              z-index: 9999;
+            }
+
+            .sidebar-left {
+              left: 0;
+            }
+
+            .sidebar-right {
+              right: 0;
+            }
         body {
             font-family: serif;
             font-size: 32px;
@@ -11,7 +30,6 @@
             background-color: #1A1F24;
             margin: 0;
             padding: 0;
-            background-image: linear-gradient(to bottom right, #111417, #1A1F24);
         }
 
         .container {
@@ -23,7 +41,7 @@
         }
 
         img {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
@@ -87,6 +105,11 @@
     </style>
 </head>
 <body>
+<!-- Sidebar Left -->
+  <div class="sidebar-left"></div>
+
+  <!-- Sidebar Right -->
+  <div class="sidebar-right"></div>
 <div class="container">
     <h1>Create Budget</h1>
     <img src="https://cdn.discordapp.com/attachments/1031582385071984723/1086949138488369202/Untitled_1.jpeg" alt="Gold Bar Image">
