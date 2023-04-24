@@ -14,7 +14,7 @@ def create_table_database():
     c.execute('''CREATE TABLE expenses
                  (id INTEGER PRIMARY KEY AUTOINCREMENT,
                  title TEXT,
-                 description TEXT,
+                 category TEXT,
                  amount REAL)''')
 
     c.execute('''DROP TABLE IF EXISTS budgets''')
@@ -30,8 +30,8 @@ def create_table_database():
 def add_expense_to_db(expense):
     conn = connect_database()
     c = conn.cursor()
-    c.execute("INSERT INTO expenses (title, description, amount) VALUES (?, ?, ?)",
-              (expense.title, expense.description, expense.amount))
+    c.execute("INSERT INTO expenses (title, category, amount) VALUES (?, ?, ?)",
+              (expense.title, expense.category, expense.amount))
     conn.commit()
     conn.close()
 
@@ -81,8 +81,8 @@ def get_expense(id):
 def update_expense(expense):
     conn = connect_database()
     c = conn.cursor()
-    c.execute("UPDATE expenses SET title=?, description=?, amount=? WHERE id=?",
-              (expense.title, expense.description, expense.amount, expense.id))
+    c.execute("UPDATE expenses SET title=?, category=?, amount=? WHERE id=?",
+              (expense.title, expense.category, expense.amount, expense.id))
     conn.commit()
     conn.close()
 
@@ -91,6 +91,13 @@ def delete_expense(id):
     conn = connect_database()
     c = conn.cursor()
     c.execute("DELETE FROM expenses WHERE id=?", (id,))
+    conn.commit()
+    conn.close()
+
+def delete_budget(id):
+    conn = connect_database()
+    c = conn.cursor()
+    c.execute("DELETE FROM budgets WHERE id=?", (id,))
     conn.commit()
     conn.close()
 

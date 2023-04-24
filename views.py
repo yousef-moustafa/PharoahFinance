@@ -51,17 +51,27 @@ def index():
 
 @expenses.route('/add_expense', methods=['GET', 'POST'])
 def add_expense():
+    budgets = get_budgets_from_db()  # Retrieve budgets data from the database
     if request.method == 'POST':
         title = request.form['title']
-        description = request.form['description']
+        category = request.form['category']
         amount = float(request.form['amount'])
         conn = sqlite3.connect('database.db')
         c = conn.cursor()
-        c.execute("INSERT INTO expenses (title, description, amount) VALUES (?, ?, ?)", (title, description, amount))
+        c.execute("INSERT INTO expenses (title, category, amount) VALUES (?, ?, ?)", (title, category, amount))
         conn.commit()
         conn.close()
         return redirect(url_for('expenses.index'))
-    return render_template('add_expense.html')
+    return render_template('add_expense.html', budgets=budgets)  # Pass budgets data to the template
+
+@expenses.route('/delete_expense/<int:id>', methods=['POST'])
+def delete_expense(id):
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("DELETE FROM expenses WHERE id=?", (id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('expenses.index'))
 
 
 def total_spent():
@@ -108,8 +118,20 @@ def create_budget():
                   (budget_name, category, amount))
         conn.commit()
         conn.close()
-        # Redirect to some success page or URL after inserting the budget into the database
+        # Redirect to home page or URL after inserting the budget into the database
         return redirect(url_for('expenses.index'))
 
-    # Render the create_budget.html template for GET requests
-    return render_template('create_budget.html')
+    # Retrieve budgets data from database
+    budgets = get_budgets_from_db()
+
+    # Render the create_budget.html template with budgets data for GET requests
+    return render_template('create_budget.html', budgets=budgets)
+
+@expenses.route('/delete_budget/<int:id>', methods=['POST'])
+def delete_budget(id):
+    conn = sqlite3.connect('database.db')
+    c = conn.cursor()
+    c.execute("DELETE FROM budgets WHERE id=?", (id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('expenses.index'))

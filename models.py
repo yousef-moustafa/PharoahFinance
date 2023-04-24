@@ -1,15 +1,15 @@
 class Expense:
-    def __init__(self, title, description, amount):
+    def __init__(self, title, category, amount):
         self.title = title
-        self.description = description
+        self.category = category
         self.amount = amount
 
 
 class ExpenseDB:
-    def __init__(self, id, title, description, amount):
+    def __init__(self, id, title, category, amount):
         self.id = id
         self.title = title
-        self.description = description
+        self.category = category
         self.amount = amount
 
 
