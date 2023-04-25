@@ -118,42 +118,58 @@
             <button type="submit">Submit</button>
         </form>
         {% if income > 0 %}
-            <p>Income set to {{ income }} egp </p>
+            <p>Current Balance: <span style="color: #50c878 ">{{ income }} egp</span> </p>
             <p>Daily spending limit: {{ daily_spending }} egp </p>
         {% else %}
             <p>No income set</p>
         {% endif %}
         <h3>Total spent: {{ total_spent }} egp </h3>
-        <form action="{{ url_for('expenses.add_expense') }}" method="GET">
-            <button type="submit">Add Expense</button>
-        </form>
         <form action="{{ url_for('expenses.create_budget') }}" method="GET">
         <button type="submit">Create Budget</button>
         </form>
+        <form action="{{ url_for('expenses.add_expense') }}" method="GET">
+            <button type="submit">Add Expense</button>
+        </form>
         <div style="display: flex;">
       <!-- Expenses Table -->
-      <div style="flex: 1; margin-right: 20px;">
+      <div style="flex: 1; margin-right: 30px;">
         <h2>My Expenses</h2>
         <table>
-      <tr>
-        <th>Description</th>
-        <th>Category</th>
-        <th>Amount</th>
-        <th></th>
-      </tr>
-      {% for expense in expenses %}
-        <tr>
-          <td>{{ expense.title }}</td>
-          <td>{{ expense.category }}</td>
-          <td>{{ expense.amount }}</td>
-          <td>
-            <form method="post" action="{{ url_for('expenses.delete_expense', id=expense.id) }}">
-              <button type="submit" class="delete-icon" title="Delete expense">X</button>
-            </form>
-          </td>
-        </tr>
-      {% endfor %}
-    </table>
+          <tr>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Amount</th>
+          </tr>
+          {% for expense in expenses %}
+            <tr>
+              <td>{{ expense.title }}</td>
+              <td>{{ expense.category }}</td>
+              <td>{{ expense.amount }}</td>
+              <td>
+                <form method="post" action="{{ url_for('expenses.delete_expense', id=expense.id) }}">
+                  <button type="submit" class="delete-icon" title="Delete expense" style="color: red" id="deleteBtn-{{ expense.id }}">DELETE</button>
+                </form>
+              </td>
+            </tr>
+            <script>
+            function deleteExpense(expenseId) {
+                // Disable the delete button
+                var deleteForm = document.getElementById('deleteForm-' + expenseId);
+                var deleteButton = deleteForm.querySelector('.delete-icon');
+                deleteButton.disabled = true;
+
+                // Make an AJAX request to delete the expense
+                // ... your AJAX delete request code here ...
+
+                // Enable the delete button after 2 seconds (adjust the timeout value as needed)
+                setTimeout(function() {
+                    deleteButton.disabled = false;
+                }, 2000);
+            }
+            </script>
+          {% endfor %}
+        </table>
+
       </div>
       <!-- Budgets Table -->
       <div style="flex: 1;">
@@ -168,10 +184,10 @@
               <td>{{ budget.category }}</td>
               <td>{{ budget.amount }}</td>
               <td>
-            <form method="post" action="{{ url_for('expenses.delete_budget', id=budget.id) }}">
-              <button type="submit" class="delete-icon" title="Delete budget">X</button>
-            </form>
-          </td>
+                <form method="post" action="{{ url_for('expenses.delete_budget', id=budget.id) }}">
+                  <button type="submit" class="delete-icon" title="Delete budget" style="color: red">DELETE</button>
+                </form>
+              </td>
             </tr>
           {% endfor %}
         </table>

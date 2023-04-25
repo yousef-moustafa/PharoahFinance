@@ -4,17 +4,33 @@
     <title>Add Expense</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
     <style>
-        /* Sidebar Styles */
-            .sidebar-left,
-            .sidebar-right {
-              background-image: url('https://cdn.discordapp.com/attachments/1031582385071984723/1086949138488369202/Untitled_1.jpeg');
-              background-size: cover;
-              position: fixed;
-              top: 0;
-              bottom: 0;
-              width: 100px;
-              z-index: 9999;
-            }
+            .flash-messages {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .flash-message {
+            padding: 8px; /* Padding around the message */
+            margin-bottom: 10px; /* Margin bottom between messages */
+            border-radius: 3px; /* Rounded corners */
+            font-weight: bold; /* Bold text */
+            font-size: 14px; /* Font size */
+            width: 250px;
+            margin-left: auto; /* Center horizontally */
+            margin-right: auto; /* Center horizontally */
+        }
+
+        .flash-message.error {
+            background-color: #ff8080; /* Error message background color */
+            color: #ffffff; /* Error message text color */
+        }
+
+        .flash-message.success {
+            background-color: #65cc71; /* Success message background color */
+            color: #ffffff; /* Success message text color */
+        }
+
 
             .sidebar-left {
               left: 0;
@@ -130,6 +146,44 @@
         <input type="submit" value="Submit">
     </form>
     <a class="back-button" href="{{ url_for('expenses.index') }}">&lt;</a>
+        <!-- Flash error messages -->
+        {% with error_messages = get_flashed_messages(category_filter=['error']) %}
+            {% if error_messages %}
+                <ul class="flash-messages">
+                    {% for message in error_messages %}
+                        <li class="flash-message error">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            <!-- JavaScript code to automatically hide the flash message after 3 seconds -->
+            <script>
+                setTimeout(function() {
+                    var flashMessages = document.querySelector('.flash-messages');
+                    if (flashMessages) {
+                        flashMessages.style.display = 'none';
+                    }
+                }, 2000);  // 2 second
+            </script>
+        {% endif %}
+    {% endwith %}
+
+{% with success_messages = get_flashed_messages(category_filter=['success']) %}
+    {% if success_messages %}
+        <ul class="flash-messages">
+            {% for message in success_messages %}
+                <li class="flash-message success">{{ message }}</li>
+            {% endfor %}
+        </ul>
+        <!-- JavaScript code to automatically hide the flash message after 3 seconds -->
+        <script>
+            setTimeout(function() {
+                var flashMessages = document.querySelector('.flash-messages');
+                if (flashMessages) {
+                    flashMessages.style.display = 'none';
+                }
+            }, 2000);  // 2 seconds
+        </script>
+    {% endif %}
+{% endwith %}
 </div>
 
 
