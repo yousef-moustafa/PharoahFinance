@@ -98,6 +98,18 @@
         .container h3{
           color:  #F8F0E3;
          }
+    /* Add styles for pie chart */
+    #pieChart {
+        width: 400px;
+        height: 550px;
+        margin: 0 auto;
+    }
+    #lineChart {
+        width: 400px;
+        height: 550px;
+        margin: 0 auto;
+    }
+
     </style>
 
 </head>
@@ -197,5 +209,109 @@
 
     </div>
     <img src="https://cdn.discordapp.com/attachments/1031582385071984723/1086949138488369202/Untitled_1.jpeg" alt="Gold Bar Image">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <h1 style="text-align: center;">Expense Pie Chart</h1>
+    <!-- Render pie chart for expenses -->
+    <canvas id="pieChart"></canvas>
+    <script>
+        // Get the expenses data from Flask route
+        // Get the expenses data from Flask route
+        var expenses = {{ expenses_json | safe }};
+
+        // Extract category and amount from expenses data
+        var categories = expenses.map(function(expense) { return expense.category; });
+        var amounts = expenses.map(function(expense) { return expense.amount; });
+
+        // Define a variable for the grey color for "None" category expenses
+        var noneCategoryColor = 'rgba(128, 128, 128, 0.2)';
+
+        // Define an array of colors for other categories
+        var otherCategoryColors = [
+            'rgba(255, 205, 86, 0.5)',   // Yellow
+            'rgba(147, 112, 219, 0.5)',  // Purple
+            'rgba(0, 128, 128, 0.5)',    // Aqua
+            'rgba(218, 165, 32, 0.5)',    // Gold
+            'rgba(30, 144, 255, 0.5)',   // Dodger Blue
+            'rgba(255, 140, 0, 0.5)'     // Dark Orange
+            'rgba(147, 112, 219, 0.5)',  // Purple
+            'rgba(0, 128, 128, 0.5)',    // Aqua
+            'rgba(218, 165, 32, 0.5)',    // Gold
+            'rgba(75, 192, 192, 0.5)',   // Teal
+            'rgba(255, 99, 132, 0.5)',   // Red
+            // Add more colors for additional categories
+        ];
+
+        // Render the pie chart using Chart.js with updated data
+        var ctx = document.getElementById('pieChart').getContext('2d');
+        var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: categories,
+                datasets: [{
+                    data: amounts,
+                    backgroundColor: categories.map(function(category) {
+                        return category === 'None' ? noneCategoryColor : otherCategoryColors.pop();
+                    }),
+                    borderColor: categories.map(function(category) {
+                        return category === 'None' ? noneCategoryColor : otherCategoryColors.pop();
+                    }),
+                    borderWidth: 1
+                }]
+            }
+        });
+
+    </script>
+
+    <h1 style="text-align: center;"> Balance History</h1>
+    <canvas id="lineChart"></canvas>
+    <!-- Render the income history chart -->
+    <script>
+        // DOM load event listener
+        document.addEventListener('DOMContentLoaded', function() {
+            var incomeHistoryJSON = '{{ income_history_json|safe }}'; // Get the JSON string from Flask
+            var incomeHistory = JSON.parse(incomeHistoryJSON); // Parse the JSON string into a JavaScript array
+
+            var labels = []; // Array to store labels
+            var data = []; // Array to store data
+
+            // Loop through the incomeHistory array and populate labels and data arrays
+            for (var i = 0; i < incomeHistory.length; i++) {
+                labels.push('Label ' + (i + 1)); // Generate label dynamically
+                data.push(incomeHistory[i]); // Get data from incomeHistory array
+            }
+            // Find the greatest income value
+            var greatestIncome = Math.max.apply(null, incomeHistory);
+
+            // Create a chart with Chart.js
+            var ctx = document.getElementById('lineChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels, // Use dynamically generated labels
+                    datasets: [{
+                        label: 'Balance',
+                        data: data, // Use dynamically generated data
+                        fill: false,
+                        borderColor: 'rgb(75, 192, 192)',
+                        tension: 0.1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: greatestIncome // Set the max value to the greatest income value
+                        }
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>
+
+
+
+
+
+

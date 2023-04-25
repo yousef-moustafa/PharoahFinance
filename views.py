@@ -1,7 +1,8 @@
 from flask import flash, Blueprint, render_template, request, redirect, url_for
 from database import create_table_database
-from models import BudgetDB, Expense
+from models import BudgetDB, Expense, ExpenseEncoder, IncomeHistoryEncoder
 import sqlite3
+import json
 
 expenses = Blueprint('expenses', __name__)
 
@@ -22,15 +23,20 @@ def get_expenses_from_db():
 
 income = 0
 amount = 0
-
+income_history = []
 
 @expenses.route('/', methods=['GET', 'POST'])
 def index():
-    global income
+    global income, income_history
     if request.method == 'POST':
         income = float(request.form['income'])
+        income_history.clear()  # Clear income history list
+        income_history.append(income)  # Append income to income history list
     # Query all expenses from the database
     expenses = get_expenses_from_db()
+    expenses_json = json.dumps(expenses, cls=ExpenseEncoder)
+
+    income_history_json = json.dumps(income_history, cls=IncomeHistoryEncoder)
     # Query all budgets from the database
     budgets = get_budgets_from_db()
 
@@ -45,7 +51,7 @@ def index():
 
     # Render the index template with the expenses, budgets, and other variables
     return render_template('index.html', expenses=expenses, budgets=budgets, total_spent=total_spent(), income=income,
-                           daily_spending=calculate_daily_spending())
+                           daily_spending=calculate_daily_spending(), expenses_json=expenses_json, income_history_json=income_history_json)
 
 
 @expenses.route('/add_expense', methods=['GET', 'POST'])
@@ -91,6 +97,7 @@ def add_expense():
 
         # Deduct expense amount from current balance
         income -= amount
+        income_history.append(income)
 
         flash('Expense added successfully.', 'success')  # Show success message
 
@@ -116,6 +123,8 @@ def delete_expense(id):
     conn.close()
     # Update income with the deleted expense amount
     income += expense[3]
+    income_history.append(income)
+
     return redirect(url_for('expenses.index'))
 
 

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <h1>Expense Pie Chart</h1>
+    <canvas id="pieChart" width="900" height="400"></canvas>
+    <script>
+        // Get the expenses data from Flask route
+        var expenses = {{ expenses | tojson }};
+
+        // Extract category and amount from expenses data
+        var categories = expenses.map(function(expense) { return expense.category; });
+        var amounts = expenses.map(function(expense) { return expense.amount; });
+
+        // Render the pie chart using Chart.js
+        var ctx = document.getElementById('pieChart').getContext('2d');
+        var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: categories,
+                datasets: [{
+                    data: amounts,
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(255, 205, 86, 0.2)',
+                        // Add more colors for additional categories
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(255, 205, 86, 1)',
+                        // Add more colors for additional categories
+                    ],
+                    borderWidth: 1
+                }]
+            }
+        });
+    </script>
+</body>
+</html>
