@@ -1,8 +1,8 @@
 from flask import flash, Blueprint, render_template, request, redirect, url_for
-from database import create_table_database
 from models import BudgetDB, Expense, ExpenseEncoder, IncomeHistoryEncoder
 import sqlite3
 import json
+from database import create_table_database
 
 expenses = Blueprint('expenses', __name__)
 
