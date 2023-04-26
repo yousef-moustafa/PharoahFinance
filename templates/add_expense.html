@@ -111,12 +111,21 @@
         .back-button:hover {
             text-decoration: underline;
         }
-        /* Modify color of text, except for title */
-        .container h1, .container h2 {
-            color: #FFFFFF;
+
+        /* Modify color of text, including title, labels and buttons */
+        .container h1,
+        .container label,
+        .container button {
+          color: #AD974F; /* Color for heading 1, labels, and buttons */
         }
-        .container p, .container label, .container input, .container button {
-            color: #AD974F;
+
+        .container input{
+           color: #000000; /* Color for input */
+        }
+
+        .container p,
+        .container h3 {
+          color: #F8F0E3; /* Color for paragraphs and heading 3 */
         }
 
     </style>
@@ -143,7 +152,7 @@
         </select>
         <label for="amount">Expense Amount:</label>
         <input type="number" id="amount" name="amount">
-        <input type="submit" value="Submit">
+        <input type="submit" value="Submit" style="color: #AD974F;">
     </form>
     <a class="back-button" href="{{ url_for('expenses.index') }}">&lt;</a>
         <!-- Flash error messages -->

@@ -2,7 +2,7 @@
 <html>
 <head>
     <title>PharaohFinance</title>
-     <style>
+    <style>
       /* Table Styles */
         table {
           width: 100%;
@@ -88,16 +88,21 @@
           opacity: 0.8;
         }
 
-        /* Modify color of text, except for title */
-        .container h1{
-          color: #FFFFFF;
+        /* Modify color of text, including title, labels, inputs, and buttons */
+        .container h1,
+        .container label,
+        .container button {
+          color: #AD974F; /* Color for heading 1, labels, and buttons */
         }
-        .container p, .container label, .container input, .container button{
-          color: #AD974F;
+
+        .container input{
+           color: #000000; /* Color for input */
         }
-        .container h3{
-          color:  #F8F0E3;
-         }
+
+        .container p,
+        .container h3 {
+          color: #F8F0E3; /* Color for paragraphs and heading 3 */
+        }
     /* Add styles for pie chart */
     #pieChart {
         width: 400px;
@@ -105,65 +110,68 @@
         margin: 0 auto;
     }
     #lineChart {
-        width: 400px;
-        height: 550px;
+        width: 500px;
+        height: 750px;
         margin: 0 auto;
     }
+
 
     </style>
 
 </head>
 <body>
 <!-- Sidebar Left -->
-  <div class="sidebar-left"></div>
+<div class="sidebar-left"></div>
 
-  <!-- Sidebar Right -->
-  <div class="sidebar-right"></div>
-    <div class="container">
-        <h1>Pharaoh Finance</h1>
-        <h3>Income:</h3>
-        <form action="{{ url_for('expenses.index') }}" method="POST">
-            <label for="income">Enter your income:</label>
-            <br>
-            <input type="number" id="income" name="income" step="0.01">
-            <br>
-            <button type="submit">Submit</button>
-        </form>
-        {% if income > 0 %}
-            <p>Current Balance: <span style="color: #50c878 ">{{ income }} egp</span> </p>
-            <p>Daily spending limit: {{ daily_spending }} egp </p>
-        {% else %}
-            <p>No income set</p>
-        {% endif %}
-        <h3>Total spent: {{ total_spent }} egp </h3>
-        <form action="{{ url_for('expenses.create_budget') }}" method="GET">
+<!-- Sidebar Right -->
+<div class="sidebar-right"></div>
+<div class="container">
+    <h1>Pharaoh Finance</h1>
+    <h3>Income:</h3>
+    <form action="{{ url_for('expenses.index') }}" method="POST">
+        <label for="income">Enter your income:</label>
+        <br>
+        <input type="number" id="income" name="income" step="0.01">
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    {% if income > 0 %}
+    <p>Current Balance: <span style="color: #50c878 ">{{ income }} egp</span></p>
+    <p>Daily spending limit: {{ daily_spending }} egp </p>
+    {% else %}
+    <p>No income set</p>
+    {% endif %}
+    <h3>Total spent: {{ total_spent }} egp </h3>
+    <form action="{{ url_for('expenses.create_budget') }}" method="GET">
         <button type="submit">Create Budget</button>
-        </form>
-        <form action="{{ url_for('expenses.add_expense') }}" method="GET">
-            <button type="submit">Add Expense</button>
-        </form>
-        <div style="display: flex;">
-      <!-- Expenses Table -->
-      <div style="flex: 1; margin-right: 30px;">
-        <h2>My Expenses</h2>
-        <table>
-          <tr>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Amount</th>
-          </tr>
-          {% for expense in expenses %}
-            <tr>
-              <td>{{ expense.title }}</td>
-              <td>{{ expense.category }}</td>
-              <td>{{ expense.amount }}</td>
-              <td>
-                <form method="post" action="{{ url_for('expenses.delete_expense', id=expense.id) }}">
-                  <button type="submit" class="delete-icon" title="Delete expense" style="color: red" id="deleteBtn-{{ expense.id }}">DELETE</button>
-                </form>
-              </td>
-            </tr>
-            <script>
+    </form>
+    <form action="{{ url_for('expenses.add_expense') }}" method="GET">
+        <button type="submit">Add Expense</button>
+    </form>
+    <div style="display: flex;">
+        <!-- Expenses Table -->
+        <div style="flex: 1; margin-right: 30px;">
+            <h2>My Expenses</h2>
+            <table>
+                <tr>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Amount</th>
+                </tr>
+                {% for expense in expenses %}
+                <tr>
+                    <td>{{ expense.title }}</td>
+                    <td>{{ expense.category }}</td>
+                    <td>{{ expense.amount }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('expenses.delete_expense', id=expense.id) }}">
+                            <button type="submit" class="delete-icon" title="Delete expense" style="color: #F8F0E3"
+                                    id="deleteBtn-{{ expense.id }}">X
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                <script>
             function deleteExpense(expenseId) {
                 // Disable the delete button
                 var deleteForm = document.getElementById('deleteForm-' + expenseId);
@@ -178,135 +186,143 @@
                     deleteButton.disabled = false;
                 }, 2000);
             }
-            </script>
-          {% endfor %}
-        </table>
 
-      </div>
-      <!-- Budgets Table -->
-      <div style="flex: 1;">
-        <h2>My Budgets</h2>
-        <table>
-          <tr>
-            <th>Category</th>
-            <th>Amount</th>
-          </tr>
-          {% for budget in budgets %}
-            <tr>
-              <td>{{ budget.category }}</td>
-              <td>{{ budget.amount }}</td>
-              <td>
-                <form method="post" action="{{ url_for('expenses.delete_budget', id=budget.id) }}">
-                  <button type="submit" class="delete-icon" title="Delete budget" style="color: red">DELETE</button>
-                </form>
-              </td>
-            </tr>
-          {% endfor %}
-        </table>
-      </div>
+                </script>
+                {% endfor %}
+            </table>
+
+        </div>
+        <!-- Budgets Table -->
+        <div style="flex: 1;">
+            <h2>My Budgets</h2>
+            <table>
+                <tr>
+                    <th>Category</th>
+                    <th>Amount</th>
+                </tr>
+                {% for budget in budgets %}
+                <tr>
+                    <td>{{ budget.category }}</td>
+                    <td>{{ budget.amount }}</td>
+                    <td>
+                        <form method="post" action="{{ url_for('expenses.delete_budget', id=budget.id) }}">
+                            <button type="submit" class="delete-icon" title="Delete budget" style="color: #F8F0E3">X
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
 
     </div>
 
+</div>
+<img src="https://cdn.discordapp.com/attachments/1031582385071984723/1086949138488369202/Untitled_1.jpeg"
+     alt="Gold Bar Image">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<h1 style="text-align: center;">Dashboard</h1>
+<div style="display: flex;">
+    <div style="flex: 1; padding: 10px;">
+        <!-- Render pie chart for expenses -->
+        <canvas id="pieChart"></canvas>
     </div>
-    <img src="https://cdn.discordapp.com/attachments/1031582385071984723/1086949138488369202/Untitled_1.jpeg" alt="Gold Bar Image">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <h1 style="text-align: center;">Expense Pie Chart</h1>
-    <!-- Render pie chart for expenses -->
-    <canvas id="pieChart"></canvas>
-    <script>
-        // Get the expenses data from Flask route
-        // Get the expenses data from Flask route
-        var expenses = {{ expenses_json | safe }};
+    <div style="flex: 1; padding: 10px;">
+        <!-- Render the income history chart -->
+        <canvas id="lineChart"></canvas>
+    </div>
+</div>
 
-        // Extract category and amount from expenses data
-        var categories = expenses.map(function(expense) { return expense.category; });
-        var amounts = expenses.map(function(expense) { return expense.amount; });
+<script>
+      // Get the expenses data from Flask route
+      var expenses = {{ expenses_json | safe }};
 
-        // Define a variable for the grey color for "None" category expenses
-        var noneCategoryColor = 'rgba(128, 128, 128, 0.2)';
+      // Extract category and amount from expenses data
+      var categories = expenses.map(function(expense) { return expense.category; });
+      var amounts = expenses.map(function(expense) { return expense.amount; });
 
-        // Define an array of colors for other categories
-        var otherCategoryColors = [
-            'rgba(255, 205, 86, 0.5)',   // Yellow
-            'rgba(147, 112, 219, 0.5)',  // Purple
-            'rgba(0, 128, 128, 0.5)',    // Aqua
-            'rgba(218, 165, 32, 0.5)',    // Gold
-            'rgba(30, 144, 255, 0.5)',   // Dodger Blue
-            'rgba(255, 140, 0, 0.5)'     // Dark Orange
-            'rgba(147, 112, 219, 0.5)',  // Purple
-            'rgba(0, 128, 128, 0.5)',    // Aqua
-            'rgba(218, 165, 32, 0.5)',    // Gold
-            'rgba(75, 192, 192, 0.5)',   // Teal
-            'rgba(255, 99, 132, 0.5)',   // Red
-            // Add more colors for additional categories
-        ];
+      // Define a variable for the grey color for "None" category expenses
+      var noneCategoryColor = 'rgba(128, 128, 128, 0.2)';
 
-        // Render the pie chart using Chart.js with updated data
-        var ctx = document.getElementById('pieChart').getContext('2d');
-        var pieChart = new Chart(ctx, {
-            type: 'pie',
-            data: {
-                labels: categories,
-                datasets: [{
-                    data: amounts,
-                    backgroundColor: categories.map(function(category) {
-                        return category === 'None' ? noneCategoryColor : otherCategoryColors.pop();
-                    }),
-                    borderColor: categories.map(function(category) {
-                        return category === 'None' ? noneCategoryColor : otherCategoryColors.pop();
-                    }),
-                    borderWidth: 1
-                }]
-            }
-        });
+      // Define an array of colors for other categories
+      var otherCategoryColors = [
+        'rgba(255, 205, 86, 0.5)',   // Yellow
+        'rgba(147, 112, 219, 0.5)',  // Purple
+        'rgba(0, 128, 128, 0.5)',    // Aqua
+        'rgba(218, 165, 32, 0.5)',    // Gold
+        'rgba(30, 144, 255, 0.5)',   // Dodger Blue
+        'rgba(255, 140, 0, 0.5)',     // Dark Orange
+        'rgba(147, 112, 219, 0.5)',  // Purple
+        'rgba(0, 128, 128, 0.5)',    // Aqua
+        'rgba(218, 165, 32, 0.5)',    // Gold
+        'rgba(75, 192, 192, 0.5)',   // Teal
+        'rgba(255, 99, 132, 0.5)',   // Red
+        // Add more colors for additional categories
+      ];
 
-    </script>
+      // Render the pie chart using Chart.js with updated data
+      var ctx = document.getElementById('pieChart').getContext('2d');
+      var pieChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: categories,
+          datasets: [{
+            data: amounts,
+            backgroundColor: categories.map(function(category) {
+              return category === 'None' ? noneCategoryColor : otherCategoryColors.pop();
+            }),
+            borderColor: categories.map(function(category) {
+              return category === 'None' ? noneCategoryColor : otherCategoryColors.pop();
+            }),
+            borderWidth: 1
+          }]
+        }
+      });
 
-    <h1 style="text-align: center;"> Balance History</h1>
-    <canvas id="lineChart"></canvas>
-    <!-- Render the income history chart -->
-    <script>
-        // DOM load event listener
-        document.addEventListener('DOMContentLoaded', function() {
-            var incomeHistoryJSON = '{{ income_history_json|safe }}'; // Get the JSON string from Flask
-            var incomeHistory = JSON.parse(incomeHistoryJSON); // Parse the JSON string into a JavaScript array
+      // DOM load event listener
+      document.addEventListener('DOMContentLoaded', function() {
+        var incomeHistoryJSON = '{{ income_history_json|safe }}'; // Get the JSON string from Flask
+        var incomeHistory = JSON.parse(incomeHistoryJSON); // Parse the JSON string into a JavaScript array
 
-            var labels = []; // Array to store labels
-            var data = []; // Array to store data
+        var labels = []; // Array to store labels
+        var data = []; // Array to store data
 
-            // Loop through the incomeHistory array and populate labels and data arrays
-            for (var i = 0; i < incomeHistory.length; i++) {
-                labels.push('Label ' + (i + 1)); // Generate label dynamically
-                data.push(incomeHistory[i]); // Get data from incomeHistory array
-            }
+        // Loop through the incomeHistory array and populate labels and data arrays
+        for (var i = 0; i < incomeHistory.length; i++) {
+          labels.push('Label ' + (i + 1)); // Generate label dynamically
+          data.push(incomeHistory[i]); // Get data from incomeHistory array
+        }
+
+
             // Find the greatest income value
             var greatestIncome = Math.max.apply(null, incomeHistory);
 
-            // Create a chart with Chart.js
-            var ctx = document.getElementById('lineChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels, // Use dynamically generated labels
-                    datasets: [{
-                        label: 'Balance',
-                        data: data, // Use dynamically generated data
-                        fill: false,
-                        borderColor: 'rgb(75, 192, 192)',
-                        tension: 0.1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            max: greatestIncome // Set the max value to the greatest income value
-                        }
+        // Create a chart with Chart.js
+        var ctx = document.getElementById('lineChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels, // Use dynamically generated labels
+                datasets: [{
+                    label: 'Balance',
+                    data: data, // Use dynamically generated data
+                    fill: false,
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: greatestIncome // Set the max value to the greatest income value
                     }
                 }
-            });
+            }
         });
-    </script>
+       });
+
+</script>
 </body>
 </html>
 
