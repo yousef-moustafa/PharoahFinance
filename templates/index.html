@@ -146,12 +146,12 @@
             <button type="submit">Submit</button>
         </form>
         {% if income > 0 %}
-        <h3>Current Balance: <span style="color: #65cc71 ">{{ income|int }} </span> egp </h3>
-        <p>Daily spending limit: {{ daily_spending }} egp </p>
+        <p>Balance: <span style="color: #65cc71 ">+{{ income|int }} </span>egp  </p>
+        <p>Daily limit: <span style="color: #FFDF00 ">~{{ daily_spending }} </span>egp </p>
         {% else %}
         <p>No income set</p>
         {% endif %}
-        <h3>Total spent: <span style="color: #FF5349 "> {{ total_spent }} </span> egp </h3>
+        <p>Total spent: <span style="color: #FF5349 "> -{{ total_spent }} </span>egp </p>
     </div>
     <!-- Right side -->
     <div style="display: flex; flex-direction: column; margin-top: 100px;">
