@@ -21,7 +21,7 @@
           font-size: 16px;
         }
 
-        /* Sidebar Styles */
+         /* Sidebar Styles */
         .sidebar-left,
         .sidebar-right {
           background-image: url('https://cdn.discordapp.com/attachments/1031582385071984723/1086949138488369202/Untitled_1.jpeg');
@@ -29,7 +29,7 @@
           position: fixed;
           top: 0;
           bottom: 0;
-          width: 100px;
+          width: 300px;
           z-index: 9999;
         }
 
@@ -45,17 +45,21 @@
         body {
           font-family: Garamond, serif;
           font-size: 27px;
-          color: #FFFFFF;
+          color: #F8F0E3;
           background-color: #1A1F24;
           margin: 0;
           padding: 0;
         }
 
         .container {
-          max-width: 800px;
-          margin: 0 auto;
-          padding: 70px;
-          text-align: center;
+        display: flex;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 70px;
+        }
+
+        .container > div:first-child {
+            margin-right: 30px;
         }
 
         img {
@@ -63,7 +67,7 @@
           top: 0;
           left: 0;
           width: 100%;
-          height: 100px; /* Adjust height as needed */
+          height: 105px; /* Adjust height as needed */
           object-fit: cover;
         }
 
@@ -116,62 +120,67 @@
     }
 
 
+
+
+
     </style>
 
 </head>
 <body>
 <!-- Sidebar Left -->
 <div class="sidebar-left"></div>
-
+<div style="display: flex; justify-content: center; align-items: center; margin-top: 100px; margin-bottom: 0; color: #AD974F;"> <!-- Updated margin-bottom value -->
+    <h1>Pharaoh Finance</h1>
+</div>
 <!-- Sidebar Right -->
 <div class="sidebar-right"></div>
-<div class="container">
-    <h1>Pharaoh Finance</h1>
-    <h3>Income:</h3>
-    <form action="{{ url_for('expenses.index') }}" method="POST">
-        <label for="income">Enter your income:</label>
-        <br>
-        <input type="number" id="income" name="income" step="0.01">
-        <br>
-        <button type="submit">Submit</button>
-    </form>
-    {% if income > 0 %}
-    <p>Current Balance: <span style="color: #50c878 ">{{ income }} egp</span></p>
-    <p>Daily spending limit: {{ daily_spending }} egp </p>
-    {% else %}
-    <p>No income set</p>
-    {% endif %}
-    <h3>Total spent: {{ total_spent }} egp </h3>
-    <form action="{{ url_for('expenses.create_budget') }}" method="GET">
-        <button type="submit">Create Budget</button>
-    </form>
-    <form action="{{ url_for('expenses.add_expense') }}" method="GET">
-        <button type="submit">Add Expense</button>
-    </form>
-    <div style="display: flex;">
-        <!-- Expenses Table -->
-        <div style="flex: 1; margin-right: 30px;">
-            <h2>My Expenses</h2>
-            <table>
-                <tr>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>Amount</th>
-                </tr>
-                {% for expense in expenses %}
-                <tr>
-                    <td>{{ expense.title }}</td>
-                    <td>{{ expense.category }}</td>
-                    <td>{{ expense.amount }}</td>
-                    <td>
-                        <form method="post" action="{{ url_for('expenses.delete_expense', id=expense.id) }}">
-                            <button type="submit" class="delete-icon" title="Delete expense" style="color: #F8F0E3"
-                                    id="deleteBtn-{{ expense.id }}">X
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                <script>
+<div class="container" style="display: flex; margin-top: -120px;">
+    <!-- Left side -->
+    <div style="flex: 1;">
+        <h3>Income:</h3>
+        <form action="{{ url_for('expenses.index') }}" method="POST">
+            <label for="income">Enter your income:</label>
+            <br>
+            <input type="number" id="income" name="income" step="0.01">
+            <br>
+            <button type="submit">Submit</button>
+        </form>
+        {% if income > 0 %}
+        <h3>Current Balance: <span style="color: #65cc71 ">{{ income|int }} </span> egp </h3>
+        <p>Daily spending limit: {{ daily_spending }} egp </p>
+        {% else %}
+        <p>No income set</p>
+        {% endif %}
+        <h3>Total spent: <span style="color: #FF5349 "> {{ total_spent }} </span> egp </h3>
+    </div>
+    <!-- Right side -->
+    <div style="display: flex; flex-direction: column; margin-top: 100px;">
+        <div style="display: flex;">
+            <div style="flex: 1; margin-right: 30px;">
+                <form action="{{ url_for('expenses.add_expense') }}" method="GET" style="margin-left: auto;">
+                    <button type="submit">Add Expense</button>
+                </form>
+                <h2>My Expenses</h2>
+                <table>
+                    <tr>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                    </tr>
+                    {% for expense in expenses %}
+                    <tr>
+                        <td>{{ expense.title }}</td>
+                        <td>{{ expense.category }}</td>
+                        <td>{{ expense.amount }}</td>
+                        <td>
+                            <form method="post" action="{{ url_for('expenses.delete_expense', id=expense.id) }}">
+                                <button type="submit" class="delete-icon" title="Delete expense" style="color: #F8F0E3"
+                                        id="deleteBtn-{{ expense.id }}">X
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    <script>
             function deleteExpense(expenseId) {
                 // Disable the delete button
                 var deleteForm = document.getElementById('deleteForm-' + expenseId);
@@ -187,34 +196,41 @@
                 }, 2000);
             }
 
-                </script>
-                {% endfor %}
-            </table>
 
-        </div>
-        <!-- Budgets Table -->
-        <div style="flex: 1;">
-            <h2>My Budgets</h2>
-            <table>
-                <tr>
-                    <th>Category</th>
-                    <th>Amount</th>
-                </tr>
-                {% for budget in budgets %}
-                <tr>
-                    <td>{{ budget.category }}</td>
-                    <td>{{ budget.amount }}</td>
-                    <td>
-                        <form method="post" action="{{ url_for('expenses.delete_budget', id=budget.id) }}">
-                            <button type="submit" class="delete-icon" title="Delete budget" style="color: #F8F0E3">X
-                            </button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </table>
-        </div>
 
+
+                    </script>
+                    {% endfor %}
+                </table>
+
+            </div>
+            <div style="flex: 1;">
+                <form action="{{ url_for('expenses.create_budget') }}" method="GET">
+                    <button type="submit">Create Budget</button>
+                </form>
+                <!-- Budgets Table -->
+                <h2>My Budgets</h2>
+                <table>
+                    <tr>
+                        <th>Category</th>
+                        <th>Amount</th>
+                    </tr>
+                    {% for budget in budgets %}
+                    <tr>
+                        <td>{{ budget.category }}</td>
+                        <td>{{ budget.amount }}</td>
+                        <td>
+                            <form method="post" action="{{ url_for('expenses.delete_budget', id=budget.id) }}">
+                                <button type="submit" class="delete-icon" title="Delete budget"
+                                        style="color: #F8F0E3">X
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>
@@ -321,6 +337,9 @@
             }
         });
        });
+
+
+
 
 </script>
 </body>

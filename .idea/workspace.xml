@@ -4,8 +4,6 @@
     <list default="true" id="826e7309-0e61-4e96-b436-403f42c99e10" name="Changes" comment="commit">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.db" beforeDir="false" afterPath="$PROJECT_DIR$/database.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/add_expense.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/add_expense.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/create_budget.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/create_budget.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -241,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682462734801</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="commit">
+      <created>1682507223483</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1682507223483</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="UnknownFeatures">
